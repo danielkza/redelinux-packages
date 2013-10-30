@@ -108,3 +108,4 @@ else
 fi
 
 mv $BUILD_DIR/* "$PACKAGE_DEST_DIR/"
+rm -rf $BUILD_DIR
