@@ -65,28 +65,28 @@ if [ $package_missing -ne 0 ]; then
 	fi
 
 	echo "Instalando pacotes do augeas..."
-	exit
-
+        
+        packages=
 	for pkg in $AUGEAS_PACKAGES; do
-		sudo dpkg -i $AUGEAS_PACKAGE_DIR/${pkg}_*.deb
+		packages="$packages "$AUGEAS_PACKAGE_DIR/${pkg}_*.deb
 	done
-
+        
+        sudo dpkg -i $packages || true
 	sudo apt-get install -f
 fi
 
 sudo mk-build-deps --install "$BASE_DIR/debian/control"
 
-cp -R "$BASE_DIR/libguestfs" "$BUILD_DIR/"
+mkdir -p "$BUILD_DIR/libguestfs"
+tar -xzf "$BASE_DIR/libguestfs-*.tar.gz" -C "$BUILD_DIR/libguestfs"
 cp -R "$BASE_DIR/debian" "$BUILD_DIR/libguestfs/"
 
 cd "$BUILD_DIR/libguestfs"
-./bootstrap
 
 if [ -d "/usr/lib/ccache" ]; then
 	debuild --prepend-path=/usr/lib/ccache --preserve-envvar='CCACHE_*' -us -uc -j12
 else
 	debuild -us -uc -j12
-fi    
+fi
 
-
-
+mv "$BUILD_DIR/*.deb" "$PACKAGE_DEST_DIR"
