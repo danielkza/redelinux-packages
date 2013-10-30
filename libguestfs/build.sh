@@ -3,8 +3,8 @@
 set -e 
 
 LIBGUESTFS_VERSION='1.24.0'
-LIBGUESTFS_ARCHIVE='libguestfs-$LIBGUESTFS_VERSION.tar.gz'
-LIBGUESTFS_URL='http://libguestfs.org/download/1.24-stable/$LIBGUESTFS_ARCHIVE'
+LIBGUESTFS_ARCHIVE="libguestfs-$LIBGUESTFS_VERSION.tar.gz"
+LIBGUESTFS_URL="http://libguestfs.org/download/1.24-stable/$LIBGUESTFS_ARCHIVE"
 
 BASE_DIR=$(readlink -f .)
 PACKAGE_DEST_DIR=$(readlink -f "$BASE_DIR/..")"/packages/libguestfs"
