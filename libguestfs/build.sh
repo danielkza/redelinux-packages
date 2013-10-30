@@ -8,7 +8,11 @@ LIBGUESTFS_DEBIAN_FOLDER="libguestfs_${LIBGUESTFS_VERSION}"
 LIBGUESTFS_ARCHIVE="${LIBGUESTFS_FOLDER}.tar.gz"
 LIBGUESTFS_URL="http://libguestfs.org/download/1.24-stable/${LIBGUESTFS_ARCHIVE}"
 
-BASE_DIR=$(readlink -f .)
+BASE_DIR=$(readlink -f $(dirname "$0"))
+if [ ! -d "$BASE_DIR" ]; then
+	BASE_DIR=$(readlink -f .)
+fi
+
 PACKAGE_DEST_DIR=$(readlink -f "$BASE_DIR/..")"/packages/libguestfs"
 BUILD_DIR=/tmp/redelinux-packages/libguestfs
 
