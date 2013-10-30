@@ -1,0 +1,41 @@
+From: Hilko Bengen <bengen@debian.org>
+Date: Sat, 1 Jun 2013 15:12:27 +0200
+Subject: Disable gnulib tests by default
+
+---
+ Makefile.am  | 5 ++++-
+ configure.ac | 9 +++++++++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -20,7 +20,10 @@
+ ACLOCAL_AMFLAGS = -I m4
+ 
+ # Gnulib - must be built and tested before the library.
+-SUBDIRS = gnulib/lib gnulib/tests
++SUBDIRS = gnulib/lib
++if ENABLE_GNULIB_TESTS
++SUBDIRS += gnulib/tests
++endif
+ 
+ # Basic source for the library.
+ SUBDIRS += tests/data generator src examples po
+--- a/configure.ac
++++ b/configure.ac
+@@ -1600,6 +1600,15 @@
+ ])
+ AM_CONDITIONAL([HAVE_BASH_COMPLETION],[test "x$bash_completion" = "xyes"])
+ 
++AC_ARG_ENABLE([gnulib-tests],
++    [AS_HELP_STRING([--disable-gnulib-tests],
++        [disable running GNU Portability library tests @<:@default=yes@:>@])],
++        [ENABLE_GNULIB_TESTS="$enableval"],
++        [ENABLE_GNULIB_TESTS=no])
++AM_CONDITIONAL([ENABLE_GNULIB_TESTS],[test "x$ENABLE_GNULIB_TESTS" = "xyes"])
++AC_MSG_RESULT([$ENABLE_GNULIB_TESTS])
++AC_SUBST([ENABLE_GNULIB_TESTS])
++
+ dnl Library versioning.
+ MAX_PROC_NR=`cat $srcdir/src/MAX_PROC_NR`
+ AC_SUBST(MAX_PROC_NR)

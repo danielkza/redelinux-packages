@@ -1,0 +1,26 @@
+usr/bin/virt-*
+usr/share/man/man1/virt-*
+usr/share/man/*/man1/virt-*
+
+usr/share/bash-completion/completions/virt-*
+etc/libguestfs-tools.conf
+
+usr/bin/libguestfs-test-tool
+usr/share/man/man1/libguestfs-test-tool*
+usr/share/man/*/man1/libguestfs-test-tool*
+
+usr/lib/guestfs
+debian/update-guestfs-appliance usr/sbin
+
+usr/share/doc/libguestfs/example-*.xml
+usr/share/doc/libguestfs/virt-inspector.rng
+
+usr/sbin/libguestfs-make-fixed-appliance
+usr/share/man/man1/libguestfs-make-fixed-appliance*
+usr/share/man/*/man1/libguestfs-make-fixed-appliance*
+
+usr/bin/guestfish
+usr/share/man/man1/guestfish*
+usr/share/man/*/man1/guestfish*
+
+usr/share/bash-completion/completions/guestfish
