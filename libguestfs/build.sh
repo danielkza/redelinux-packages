@@ -20,8 +20,44 @@ if [ ! -f /usr/lib/pkgconfig/python-2.6.pc ]; then
     export PKG_CONFIG_PATH="$BASE_DIR/pkgconfig"
 fi
 
-sudo apt-get install -t testing augeas-lenses libaugeas0 libaugeas-dev
-sudo apt-get build-dep libguestfs
+AUGEAS_PACKAGES='libaugeas0 libaugeas-dev augeas-lenses'
+
+package_missing=0
+for pkg in $AUGEAS_PACKAGES; do
+	if ! dpkg -s "$pkg" 2>&1 > /dev/null; then
+		package_missing=1
+		break
+	fi
+done
+
+if [ $package_missing -ne 0 ]; then
+	echo "Pacote do augeas `$pkg` faltando"
+
+	AUGEAS_PACKAGE_DIR=$(readlink -f "$BASE_DIR/..")"/packages/augeas"
+
+	package_not_built=0
+	for pkg in $AUGEAS_PACKAGES; do
+		if [ ! -f "$AUGEAS_PACKAGE_DIR/$pkg_*.deb" ]; then
+			package_not_built=1
+			break
+		fi
+	done
+
+	if [ $package_not_built -ne 0 ]; then
+		echo "Pacote `$pkg` não existe, recompilando augeas"
+		$(cd "$BASE_DIR/../augeas" && ./build.sh)
+	fi
+
+	echo "Instalando pacotes do augeas..."
+
+	for pkg in $AUGEAS_PACKAGES; do
+		sudo dpkg -i "$AUGEAS_PACKAGE_DIR/$pkg_*.deb"
+	done
+
+	sudo apt-get install -f
+fi
+
+sudo mk-build-deps --install "$BASE_DIR/debian/control"
 
 cp -R "$BASE_DIR/libguestfs" "$BUILD_DIR/"
 cp -R "$BASE_DIR/debian" "$BUILD_DIR/libguestfs/"
