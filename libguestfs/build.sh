@@ -3,8 +3,8 @@
 set -e 
 
 LIBGUESTFS_VERSION='1.24.0'
-LIBGUESTFS_URL='http://libguestfs.org/download/1.24-stable/libguestfs-1.24.0.tar.gz'
-
+LIBGUESTFS_ARCHIVE='libguestfs-$LIBGUESTFS_VERSION.tar.gz'
+LIBGUESTFS_URL='http://libguestfs.org/download/1.24-stable/$LIBGUESTFS_ARCHIVE'
 
 BASE_DIR=$(readlink -f .)
 PACKAGE_DEST_DIR=$(readlink -f "$BASE_DIR/..")"/packages/libguestfs"
@@ -83,14 +83,18 @@ sudo mk-build-deps --install "$BASE_DIR/debian/control"
 
 mkdir -p "$BUILD_DIR/libguestfs"
 
-libguestfs_archive="libguestfs-$LIBGUESTFS_VERSION.orig.tar.gz"
-libguestfs_build_dir="$BUILD_DIR/libguestfs-$LIBGUESTFS_VERSION/"
+wget "$LIBGUESTFS_URL" -c -P "$BASE_DIR/download/"
 
-curl "$LIBGUESTFS_URL" -O "$BUILD_DIR/$libguestfs_archive"
-tar -xzf "$BUILD_DIR/$libguestfs_archive" -C "$BUILD_DIR/"
-cp -R "$BASE_DIR/debian" "$libguestfs_build_dir"
+download_archive="$BASE_DIR/download/$LIBGUESTFS_ARCHIVE"
+libguestfs_folder="${LIBGUESTFS_ARCHIVE%%.*}"
+orig_archive="$BUILD_DIR/${LIBGUESTFS_FOLDER}.orig.tar.gz"
 
-cd "$libguestfs_build_dir"
+ln -s "$download_archive" "$orig_archive"
+tar -xzf "$orig_archive" -C "$BUILD_DIR/"
+
+cp -R "$BASE_DIR/debian" "$BUILD_DIR/$libguestfs_folder"
+
+cd "$BUILD_DIR/$libguestfs_folder"
 
 if [ -d "/usr/lib/ccache" ]; then
 	debuild --prepend-path=/usr/lib/ccache --preserve-envvar='CCACHE_*' -us -uc -j12
