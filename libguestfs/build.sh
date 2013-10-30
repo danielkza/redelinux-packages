@@ -3,7 +3,8 @@
 set -e 
 
 LIBGUESTFS_VERSION='1.24.0'
-LIBGUESTFS_ARCHIVE="libguestfs-$LIBGUESTFS_VERSION.tar.gz"
+LIBGUESTFS_FOLDER='libguestfs-$LIBGUESTFS_VERSION'
+LIBGUESTFS_ARCHIVE="$LIBGUESTFS_FOLDER.tar.gz"
 LIBGUESTFS_URL="http://libguestfs.org/download/1.24-stable/$LIBGUESTFS_ARCHIVE"
 
 BASE_DIR=$(readlink -f .)
@@ -86,7 +87,6 @@ mkdir -p "$BUILD_DIR/libguestfs"
 wget "$LIBGUESTFS_URL" -c -P "$BASE_DIR/download/"
 
 download_archive="$BASE_DIR/download/$LIBGUESTFS_ARCHIVE"
-libguestfs_folder="${LIBGUESTFS_ARCHIVE%%.*}"
 orig_archive="$BUILD_DIR/${LIBGUESTFS_FOLDER}.orig.tar.gz"
 
 ln -s "$download_archive" "$orig_archive"
