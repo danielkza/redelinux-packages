@@ -6,7 +6,7 @@ BASE_DIR=$(readlink -f .)
 PACKAGE_DEST_DIR=$(readlink -f "$BASE_DIR/..")"/packages/libguestfs"
 BUILD_DIR=/tmp/redelinux-packages/libguestfs
 
-[ -d "$PACKAGE_DEST_DIR"] || mkdir -p "$PACKAGE_DEST_DIR"
+[ -d "$PACKAGE_DEST_DIR" ] || mkdir -p "$PACKAGE_DEST_DIR"
 
 if [ -d "$BUILD_DIR" ]; then
     rm -rf "$BUILD_DIR"
