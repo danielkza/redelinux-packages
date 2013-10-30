@@ -22,6 +22,19 @@ fi
 
 AUGEAS_PACKAGES='libaugeas0 libaugeas-dev augeas-lenses'
 
+first_file() {
+	if [ $# -le 0 ]; then
+		return 1
+	fi
+
+	if [ ! -f "$1" ]; then
+		return 1
+	fi
+
+	echo "$1"
+	return 0
+}
+
 package_missing=0
 for pkg in $AUGEAS_PACKAGES; do
 	if ! dpkg -s "$pkg" 2>&1 > /dev/null; then
@@ -31,25 +44,28 @@ for pkg in $AUGEAS_PACKAGES; do
 done
 
 if [ $package_missing -ne 0 ]; then
-	echo "Pacote do augeas `$pkg` faltando"
+	echo "Pacote do augeas '$pkg' faltando"
 
 	AUGEAS_PACKAGE_DIR=$(readlink -f "$BASE_DIR/..")"/packages/augeas"
 
 	package_not_built=0
 	for pkg in $AUGEAS_PACKAGES; do
-		if [ ! -f "$AUGEAS_PACKAGE_DIR/$pkg_*.deb" ]; then
+		pkg_file=$(first_file "$AUGEAS_PACKAGE_DIR/$pkg_*.deb")
+		echo $pkg_file
+		if [ $? -ne 0 ]; then
 			package_not_built=1
 			break
 		fi
 	done
 
 	if [ $package_not_built -ne 0 ]; then
-		echo "Pacote `$pkg` não existe, recompilando augeas"
-		$(cd "$BASE_DIR/../augeas" && ./build.sh)
+		echo "Pacote '$pkg' não existe, recompilando augeas"
+		(cd "$BASE_DIR/../augeas" && ./build.sh)
 	fi
 
 	echo "Instalando pacotes do augeas..."
-
+	exit
+	
 	for pkg in $AUGEAS_PACKAGES; do
 		sudo dpkg -i "$AUGEAS_PACKAGE_DIR/$pkg_*.deb"
 	done

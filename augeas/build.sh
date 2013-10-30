@@ -6,4 +6,4 @@ PACKAGE_DEST_DIR=$(readlink -f "$BASE_DIR/..")"/packages/augeas"
 [ -d "$PACKAGE_DEST_DIR" ] || mkdir -p "$PACKAGE_DEST_DIR"
 
 cd "$PACKAGE_DEST_DIR"
-apt-source -t testing --build augeas
+apt-get source -t testing --build augeas
