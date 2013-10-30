@@ -92,7 +92,7 @@ orig_archive="$BUILD_DIR/${LIBGUESTFS_FOLDER}.orig.tar.gz"
 ln -s "$download_archive" "$orig_archive"
 tar -xzf "$orig_archive" -C "$BUILD_DIR/"
 
-cp -R "$BASE_DIR/debian" "$BUILD_DIR/$libguestfs_folder"
+cp -R "$BASE_DIR/debian" "$BUILD_DIR/$LIBGUESTFS_FOLDER"
 
 cd "$BUILD_DIR/$libguestfs_folder"
 
