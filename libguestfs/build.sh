@@ -48,9 +48,10 @@ if [ $package_missing -ne 0 ]; then
 
 	AUGEAS_PACKAGE_DIR=$(readlink -f "$BASE_DIR/..")"/packages/augeas"
 
-	package_not_built=0
+	package_not_built=0bbnlbkxx
+
 	for pkg in $AUGEAS_PACKAGES; do
-		pkg_file=$(first_file "$AUGEAS_PACKAGE_DIR/$pkg_*.deb")
+		pkg_file=$(first_file $AUGEAS_PACKAGE_DIR/${pkg}_*.deb)
 		echo $pkg_file
 		if [ $? -ne 0 ]; then
 			package_not_built=1
@@ -65,9 +66,9 @@ if [ $package_missing -ne 0 ]; then
 
 	echo "Instalando pacotes do augeas..."
 	exit
-	
+
 	for pkg in $AUGEAS_PACKAGES; do
-		sudo dpkg -i "$AUGEAS_PACKAGE_DIR/$pkg_*.deb"
+		sudo dpkg -i $AUGEAS_PACKAGE_DIR/${pkg}_*.deb
 	done
 
 	sudo apt-get install -f
