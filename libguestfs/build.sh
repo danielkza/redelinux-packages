@@ -20,7 +20,8 @@ if [ ! -f /usr/lib/pkgconfig/python-2.6.pc ]; then
     export PKG_CONFIG_PATH="$BASE_DIR/pkgconfig"
 fi
 
-apt-get build-dep libguestfs
+sudo apt-get install -t testing augeas-lenses libaugeas0 libaugeas-dev
+sudo apt-get build-dep libguestfs
 
 cp -R "$BASE_DIR/libguestfs" "$BUILD_DIR/"
 cp -R "$BASE_DIR/debian" "$BUILD_DIR/libguestfs/"
