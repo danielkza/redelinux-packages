@@ -107,4 +107,4 @@ else
 	debuild -us -uc -j12
 fi
 
-mv $BUILD_DIR/*.deb "$PACKAGE_DEST_DIR"
+mv $BUILD_DIR/* "$PACKAGE_DEST_DIR/"
