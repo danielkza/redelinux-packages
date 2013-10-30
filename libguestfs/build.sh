@@ -82,7 +82,7 @@ fi
 
 sudo mk-build-deps --install "$BASE_DIR/debian/control"
 
-mkdir -p "$BUILD_DIR/libguestfs"
+mkdir -p "$BUILD_DIR"
 
 wget "$LIBGUESTFS_URL" -c -P "$BASE_DIR/download/"
 
@@ -94,7 +94,7 @@ tar -xzf "$orig_archive" -C "$BUILD_DIR/"
 
 cp -R "$BASE_DIR/debian" "$BUILD_DIR/$LIBGUESTFS_FOLDER"
 
-cd "$BUILD_DIR/$libguestfs_folder"
+cd "$BUILD_DIR/$LIBGUESTFS_FOLDER"
 
 if [ -d "/usr/lib/ccache" ]; then
 	debuild --prepend-path=/usr/lib/ccache --preserve-envvar='CCACHE_*' -us -uc -j12
