@@ -1,0 +1,3 @@
+[submodule "libguestfs/libguestfs"]
+	path = libguestfs/libguestfs
+	url = git://github.com/libguestfs/libguestfs.git
